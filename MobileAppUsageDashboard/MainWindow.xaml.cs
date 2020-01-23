@@ -24,5 +24,41 @@ namespace MobileAppUsageDashboard
         {
             InitializeComponent();
         }
+
+        private void todayBtnClicked(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            todayRadio.IsChecked = true;
+            monthRadio.IsChecked = false;
+            weekRadio.IsChecked = false;
+        }
+
+        private void weekBtnClicked(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            todayRadio.IsChecked = false;
+            monthRadio.IsChecked = false;
+            weekRadio.IsChecked = true;
+        }
+
+        private void monthBtnClicked(object sender, RoutedEventArgs e)
+        {
+            mainDrawer.IsLeftDrawerOpen = false;
+            todayRadio.IsChecked = false;
+            monthRadio.IsChecked = true;
+            weekRadio.IsChecked = false;
+        }
+
+        private void dragMe(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                DragMove();
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }

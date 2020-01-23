@@ -13,8 +13,8 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Application Usage Statistics" Height="450" Width="800" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
-    <materialDesign:DrawerHost>
+        Title="Application Usage Statistics" Height="450" Width="800" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" MouseLeftButtonDown="dragMe">
+    <materialDesign:DrawerHost x:Name="mainDrawer">
         <!-- Drawer Content -->
         <materialDesign:DrawerHost.LeftDrawerContent>
             <StackPanel Orientation="Vertical">
@@ -26,9 +26,9 @@
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <Button Style="{StaticResource MaterialDesignFlatButton}">TODAY</Button>
-                    <Button Style="{StaticResource MaterialDesignFlatButton}">WEEK</Button>
-                    <Button Style="{StaticResource MaterialDesignFlatButton}">MONTH</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Click="todayBtnClicked">TODAY</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Click="weekBtnClicked">WEEK</Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Click="monthBtnClicked">MONTH</Button>
                 </StackPanel>
             </StackPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
@@ -61,15 +61,15 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Time Period" VerticalAlignment="Center" />
                         <StackPanel Orientation="Horizontal">
-                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                            <RadioButton x:Name="todayRadio" Style="{StaticResource MaterialDesignTabRadioButton}"
                                          Margin="4"
                                          IsChecked="True"
                                          Content="TODAY" />
-                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                            <RadioButton x:Name="weekRadio" Style="{StaticResource MaterialDesignTabRadioButton}"
                                          Margin="4"
                                          IsChecked="False"
                                          Content="WEEK" />
-                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                            <RadioButton x:Name="monthRadio" Style="{StaticResource MaterialDesignTabRadioButton}"
                                          Margin="4"
                                          IsChecked="False"
                                          Content="MONTH" />
@@ -103,8 +103,8 @@
                                 </ProgressBar.Style>
                             </ProgressBar>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Text="{Binding ElementName=firstProgress, Path=Value}" />
-                            <TextBlock Grid.Row="1" Text="Google Chrome" HorizontalAlignment="Center" />
+                                       Text="2 hr / 5 hr" />
+                            <TextBlock Grid.Row="1" Text="Google Chrome" HorizontalAlignment="Center" Margin="0,5,0,0" />
                         </Grid>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -133,8 +133,8 @@
                                 </ProgressBar.Style>
                             </ProgressBar>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Text="{Binding ElementName=secondProgress, Path=Value}" />
-                            <TextBlock Grid.Row="1" Text="YouTube" HorizontalAlignment="Center" />
+                                       Text="2 hr / 3 hr" />
+                            <TextBlock Grid.Row="1" Text="YouTube" HorizontalAlignment="Center" Margin="0,5,0,0" />
                         </Grid>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -163,18 +163,56 @@
                                 </ProgressBar.Style>
                             </ProgressBar>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Text="{Binding ElementName=thirdProgress, Path=Value}" />
-                            <TextBlock Grid.Row="1" Text="Gmail" HorizontalAlignment="Center" />
+                                       Text="1 hr / 4 hr" />
+                            <TextBlock Grid.Row="1" Text="Gmail" HorizontalAlignment="Center" Margin="0,5,0,0" />
                         </Grid>
                     </UniformGrid>
                 </StackPanel>
-                <materialDesign:Card Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <materialDesign:Card Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
                     <materialDesign:Card.Background>
                         <LinearGradientBrush EndPoint="0.5, 1" StartPoint="0.5, 0">
                             <GradientStop Color="#FF09A6A6" Offset="0" />
                             <GradientStop Color="#FF044D4D" Offset="1" />
                         </LinearGradientBrush>
                     </materialDesign:Card.Background>
+                    <Grid Margin="5,15,5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Charged" HorizontalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="4" HorizontalAlignment="Center" />
+                                <TextBlock Text=" times" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Text="Max Temp" HorizontalAlignment="Center" Margin="0,25,0,0" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="40" HorizontalAlignment="Center" />
+                                <TextBlock Text=" C" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="SoT" HorizontalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="6" HorizontalAlignment="Center" />
+                                <TextBlock Text=" min" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Text="Last Full Charge" HorizontalAlignment="Center" Margin="0,25,0,0" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="2" HorizontalAlignment="Center" />
+                                <TextBlock Text=" hrs ago" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <materialDesign:Card.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform x:Name="" Y="-455"/>
+                        </TransformGroup>
+                    </materialDesign:Card.RenderTransform>
                 </materialDesign:Card>
             </Grid>
         </materialDesign:Card>
